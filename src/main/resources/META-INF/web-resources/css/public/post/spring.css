@@ -1,0 +1,11 @@
+.title_part {
+	padding-bottom: 0.2em;
+	padding-bottom: 0.5rem;
+	font-weight: bolder;
+	border-bottom: 1px solid #CCC;
+}
+
+.contents_en {
+	display: none;
+}
+
