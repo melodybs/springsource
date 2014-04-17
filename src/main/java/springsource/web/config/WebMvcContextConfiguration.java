@@ -175,7 +175,7 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 						env.getProperty("facebook.clientId"), 
 						env.getProperty("facebook.clientSecret")));
 		
-		return null;
+		return registry;
 	}
 	
 	//Session
