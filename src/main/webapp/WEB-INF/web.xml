@@ -65,6 +65,18 @@
 </filter-mapping>
  CKFINDER end-->
 
+<!-- Error Page -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/public/error/403</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/public/error/404</location>
+	</error-page>
+<!-- //Error Page -->
+
 <!-- CKFINDER start-->
 	<servlet>
 		<servlet-name>ConnectorServlet</servlet-name>

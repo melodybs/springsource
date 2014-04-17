@@ -125,7 +125,7 @@ public class ControllerTest {
 		
 		this.mockMvc.perform(get("/prevNext/spring/1"))
 				.andExpect(status().isFound())
-				.andExpect(redirectedUrl("public/post/spring/1"));
+				.andExpect(redirectedUrl("/public/post/spring/1"));
 	}
 	
 	@Test

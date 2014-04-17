@@ -1,17 +1,19 @@
 package springsource.web.config;
 
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
+import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.support.ConnectionFactoryRegistry;
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -30,8 +32,6 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 
-import springsource.web.method.support.SessionAttributeProcessor;
-
 
 /**
  * {@link WebMvcConfigurerAdapter}: {@link WebMvcConfigurer}인터페이스. 모든 메소드를 구현하지 않은 추상 클래스.
@@ -41,8 +41,11 @@ import springsource.web.method.support.SessionAttributeProcessor;
 @EnableWebMvc
 @ComponentScan(basePackages={ "springsource.web" })
 @ImportResource("classpath:/spring/spring-security.xml")
+@PropertySource( {"classpath:social.properties"} )
 public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 	
+	@Autowired
+	private Environment env;
 	//Logger logger = LoggerFactory.getLogger(WebMvcContextConfiguration.class);
 	
 /* Config */
@@ -104,7 +107,7 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 		
 		UrlBasedViewResolver urlBasedViewResolver = new UrlBasedViewResolver();
 		
-		urlBasedViewResolver.setOrder(1);
+		urlBasedViewResolver.setOrder(0);
 		urlBasedViewResolver.setViewClass(TilesView.class);
 		
 		return urlBasedViewResolver;
@@ -117,7 +120,7 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 		InternalResourceViewResolver internalResourceViewResolver =
 				new InternalResourceViewResolver();
 		
-		internalResourceViewResolver.setOrder(2);
+		internalResourceViewResolver.setOrder(1);
 		internalResourceViewResolver.setPrefix("/WEB-INF/views/");
 		internalResourceViewResolver.setSuffix(".jsp");
 		internalResourceViewResolver.setViewClass(JstlView.class);
@@ -159,6 +162,20 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 	public MultipartResolver multipartResolver() {
 		
 		return new StandardServletMultipartResolver();
+	}
+	
+	//FaceBook
+	@Bean
+	public ConnectionFactoryLocator connectionFactoyLocator() {
+		
+		ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
+		
+		registry.addConnectionFactory(
+				new FacebookConnectionFactory(
+						env.getProperty("facebook.clientId"), 
+						env.getProperty("facebook.clientSecret")));
+		
+		return null;
 	}
 	
 	//Session

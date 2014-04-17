@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	
+	<security:global-method-security pre-post-annotations="enabled" />
+	
+	<security:http use-expressions="true">
+		
+		<security:form-login 
+				login-page="/public/authentication/login"
+				default-target-url="/main"
+				authentication-failure-url="/public/authentication/login?authenticationOk=1" />
+
+		<security:intercept-url pattern="/public/authentication/**" access="permitAll" requires-channel="https" />
+
+		<security:intercept-url pattern="/secured/admin/write" access="hasRole('PERM_ADD_POST')" requires-channel="https" /> 
+	    <security:intercept-url pattern="/secured/admin/modify" access="hasRole('PERM_MOD_POST')" requires-channel="https" /> 
+	    <security:intercept-url pattern="/secred/**" access="fullyAuthenticated" requires-channel="https" />
+		
+		<security:intercept-url pattern="/**" access="permitAll" />
+	
+		<security:logout 
+				logout-success-url="/main" 
+		        logout-url="/j_spring_security_logout"
+		        invalidate-session="true" />
+		
+		<!-- 
+			<security:custom-filter ref="cloudFoundryHttpServletRequestWrappingFilter" before="FIRST" /> 
+			<bean id="cloudFoundryHttpServletRequestWrappingFilter" class="mvc.web.security.CloudFoundryHttpServletRequestWrappingFilter" />
+		-->
+	</security:http>
+	
+	<security:authentication-manager>
+    	<security:authentication-provider user-service-ref="springUserDetailsService">
+    		
+    		<security:password-encoder hash="sha-256">
+    			<security:salt-source user-property="username" />
+    		</security:password-encoder>
+    	
+  			<!-- <security:jdbc-user-service data-source-ref="dataSource"  
+			users-by-username-query="SELECT email, password FROM USER WHERE email = ?"  
+			authorities-by-username-query="SELECT u.email, r.role FROM USER u, ROLE r WHERE u.user_id = u2.user_id AND u.email = ?" /> -->	
+    	
+    		<!-- <security:password-encoder hash="sha-256">
+    			<security:salt-source user-property="email" />
+    		</security:password-encoder>
+    		
+    		<security:user-service>
+    			<security:user name="guest" 
+    					password="c44d3ec4d6a6bb79e097468556bfc565"
+    			        authorities="ROLE_GUEST" />
+    			<security:user name="admin" 
+    					password="c44d3ec4d6a6bb79e097468556bfc565"
+    					authorities="ROLE_ADMIN"/>
+    			<security:user name="author" 
+    					password="c44d3ec4d6a6bb79e097468556bfc565"
+    					authorities="ROLE_AUTHOR"/>
+    		</security:user-service>  -->
+    	</security:authentication-provider>
+    </security:authentication-manager>
+</beans>

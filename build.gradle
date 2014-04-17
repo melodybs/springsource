@@ -106,6 +106,13 @@ dependencies {
     compile "com.google.code.gson:gson:2.2.4"
     compile "javax.validation:validation-api:1.1.0.Final"
     
+    compile "org.springframework.social:spring-social:1.0.3.RELEASE"
+    compile "org.springframework.social:spring-social-facebook:1.0.3.RELEASE"
+    compile "org.springframework.social:spring-social-twitter:1.0.5.RELEASE"
+    //compile "org.springframework.social:spring-social-linkedin:1.0.0.RC4"
+    //compile "org.springframework.social:spring-social-github:1.0.0.M3"
+    //compile "org.springframework.social:spring-social-tripit:1.0.0.M3"
+    
     compile "org.slf4j:jcl-over-slf4j:1.7.6"
     
     testCompile "junit:junit:4.11"

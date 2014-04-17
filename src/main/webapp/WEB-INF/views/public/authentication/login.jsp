@@ -39,7 +39,7 @@
 </sec:authorize>
 
 <sec:authorize access = "isAuthenticated()">
-	<sec:authentication property="name" /> (${pageContext.request.remoteAddr}) 
+	<sec:authentication property="name" />
 	
 	<br />
 	

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
@@ -85,10 +85,8 @@
 		</sec:authorize>
 		<sec:authorize access = "isAuthenticated()">
 			<span class="btn_logout"> <a accesskey="o" href="${logout}"> 로그아웃 </a></span>
-			
 			<span> | </span>
-			
-			<span class="text_login_info"> <sec:authentication property="name" /> (${pageContext.request.remoteAddr}) </span>
+			<span class="text_login_info"> <sec:authentication property="name" /> </span>
 		</sec:authorize>
 	</div>
 </footer>
