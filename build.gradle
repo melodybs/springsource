@@ -66,6 +66,12 @@ css.source {
     }
 }
 
+repositories {
+    maven {
+    	url "http://repo.springsource.org/plugins-release/"
+    }
+}
+
 /*Default---------------------------------------------------------------------*/
 dependencies {
 	compile "org.apache.tiles:tiles-servlet:$tilesVersion"
@@ -107,8 +113,12 @@ dependencies {
     compile "javax.validation:validation-api:1.1.0.Final"
     
     compile "org.springframework.social:spring-social:1.0.3.RELEASE"
+    compile "org.springframework.social:spring-social-config:1.1.0.RC1"
+    compile "org.springframework.social:spring-social-security:1.1.0.RC1"
     compile "org.springframework.social:spring-social-facebook:1.0.3.RELEASE"
     compile "org.springframework.social:spring-social-twitter:1.0.5.RELEASE"
+    compile "org.springframework.social:spring-social-google:1.0.0.M3"
+    //compile "org.springframework.social:spring-social-google:${org.springframework.social-google-version}"
     //compile "org.springframework.social:spring-social-linkedin:1.0.0.RC4"
     //compile "org.springframework.social:spring-social-github:1.0.0.M3"
     //compile "org.springframework.social:spring-social-tripit:1.0.0.M3"

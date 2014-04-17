@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import springsource.web.domain.User;
 
 public class SpringUserDetails implements UserDetails {	
-	
+
 	private User user;
 	private List<? extends GrantedAuthority> authorities = 
 			new ArrayList<GrantedAuthority>();
