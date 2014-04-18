@@ -69,7 +69,8 @@ public class InitialDataSetup {
     			InitialDataSetup.this.account = new UserBuilder() {
     				{
     					credentials("guest@gmail.com", "secret");
-    					name("guest");
+    					firstName("guest");
+    					lastName("guest");
     					join_date(new Date(2001, 0, 1, 1, 11, 11));
     					roleWithPermission(InitialDataSetup.this.roleGuest);
     				}
@@ -78,7 +79,8 @@ public class InitialDataSetup {
     			new UserBuilder() {
     				{
     					credentials("author@gmail.com", "secret");
-    					name("author");
+    					firstName("author");
+    					lastName("author");
     					join_date(new Date(2002, 1, 2, 2, 22, 22));
     					roleWithPermission(InitialDataSetup.this.roleAuthor,
     							InitialDataSetup.this.permAddPost,
@@ -89,7 +91,8 @@ public class InitialDataSetup {
     			new UserBuilder() {
     				{
     					credentials("admin@gmail.com", "secret");
-    					name("admin");
+    					firstName("admin");
+    					lastName("admin");
     					join_date(new Date(2003, 2, 3, 3, 33, 33));
     					roleWithPermission(InitialDataSetup.this.roleAuthor,
     							InitialDataSetup.this.permAddPost,

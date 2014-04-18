@@ -6,14 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.support.ConnectionFactoryRegistry;
-import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -41,11 +37,8 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 @EnableWebMvc
 @ComponentScan(basePackages={ "springsource.web" })
 @ImportResource("classpath:/spring/spring-security.xml")
-@PropertySource( {"classpath:social.properties"} )
 public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 	
-	@Autowired
-	private Environment env;
 	//Logger logger = LoggerFactory.getLogger(WebMvcContextConfiguration.class);
 	
 /* Config */
@@ -162,20 +155,6 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 	public MultipartResolver multipartResolver() {
 		
 		return new StandardServletMultipartResolver();
-	}
-	
-	//FaceBook
-	@Bean
-	public ConnectionFactoryLocator connectionFactoyLocator() {
-		
-		ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
-		
-		registry.addConnectionFactory(
-				new FacebookConnectionFactory(
-						env.getProperty("facebook.clientId"), 
-						env.getProperty("facebook.clientSecret")));
-		
-		return registry;
 	}
 	
 	//Session

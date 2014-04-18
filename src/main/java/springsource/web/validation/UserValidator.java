@@ -20,9 +20,10 @@ public class UserValidator implements Validator {
 			"[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	private static final String PASSWORD_PATTERN = 
 			"((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
-	private static final String NAME_PATTERN = 
-			"^[가-힣]{2,4}|[a-zA-Z]{2,10}\\s[a-zA-Z]{2,10}$";
+	//private static final String NAME_PATTERN = "^[가-힣]{2,4}|[a-zA-Z]{2,10}\\s[a-zA-Z]{2,10}$";
 	//private static final String USERNAME_PATTERN = "^[a-z0-9_-]{3,15}$";
+	private static final String FIRSTNAME_PATTERN = "^[A-Za-z]+\\.([A-Za-z]\\.)?[A-Za-z]+$";
+	private static final String LASTNAME_PATTERN = "\\w+\\.\\w\\.\\w+|\\w+\\.\\w+";
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -38,7 +39,9 @@ public class UserValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(
 				errors, "password", "required", new Object[] { "Password" });
 		ValidationUtils.rejectIfEmpty(
-				errors, "name", "required", new Object[] { "Name" });
+				errors, "firstName", "required", new Object[] { "FirstName" });
+		ValidationUtils.rejectIfEmpty(
+				errors, "lastName", "required", new Object[] { "LastName" });
 		
 		
 		//email pattern
@@ -66,13 +69,25 @@ public class UserValidator implements Validator {
 		}
 		
 
-		//name pattern
-		if (!errors.hasFieldErrors("name")) {
+		//firstName pattern
+		if (!errors.hasFieldErrors("firstName")) {
 			
 			User user = (User) target;
-			String email = user.getName();
+			String email = user.getFirstName();
 			
-			if (!email.matches(NAME_PATTERN)) {
+			if (!email.matches(FIRSTNAME_PATTERN)) {
+				
+				errors.rejectValue("password", "invalid");
+			}
+		}
+		
+		//lastName pattern
+		if (!errors.hasFieldErrors("lastName")) {
+			
+			User user = (User) target;
+			String email = user.getLastName();
+			
+			if (!email.matches(LASTNAME_PATTERN)) {
 				
 				errors.rejectValue("password", "invalid");
 			}

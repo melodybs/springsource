@@ -28,9 +28,16 @@ public class UserBuilder extends EntityBuilder<User> {
 		return this;
 	}
 	
-	public UserBuilder name(String name) {
+	public UserBuilder firstName(String firstName) {
 		
-		this.product.setName(name);
+		this.product.setFirstName(firstName);
+		
+		return this;
+	}
+	
+	public UserBuilder lastName(String lastName) {
+		
+		this.product.setLastName(lastName);
 		
 		return this;
 	}

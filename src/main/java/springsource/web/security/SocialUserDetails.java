@@ -34,11 +34,11 @@ public class SocialUserDetails extends SocialUser {
 		private String password;
 		private Role role;
 		private SocialMediaService socialSignInProvider;
-		private Set<GrantedAuthority> authorityies;
+		private Set<GrantedAuthority> authorities;
 		
 		public Builder() {
 			
-			this.authorityies = new HashSet<>();
+			this.authorities = new HashSet<>();
 		}
 		
 		public Builder username(String username) {
@@ -76,7 +76,7 @@ public class SocialUserDetails extends SocialUser {
 			SimpleGrantedAuthority authority = 
 					new SimpleGrantedAuthority(role.toString());
 			
-			this.authorityies.add(authority);
+			this.authorities.add(authority);
 			
 			return this;
 		}
@@ -87,6 +87,20 @@ public class SocialUserDetails extends SocialUser {
 			this.socialSignInProvider = socialSignInProvider;
 			
 			return this;
+		}
+		
+		public SocialUserDetails build() {
+			
+			SocialUserDetails user = 
+					new SocialUserDetails(username, password, authorities);
+			
+			user.id = id;
+			user.firstName = firstName;
+			user.lastName = lastName;
+			user.role = role;
+			user.socialSignInProvider = socialSignInProvider;
+			
+			return user;
 		}
 	}
 }

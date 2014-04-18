@@ -39,10 +39,14 @@ public class User implements Serializable {
 	@NotEmpty
 	@Column(columnDefinition = "char default 64", nullable = false)
 	private String password;
+
+	@NotEmpty
+	@Column(columnDefinition = "varchar default 20", nullable = false)
+	private String firstName;
 	
 	@NotEmpty
-	@Column(columnDefinition = "varchar", nullable = false)
-	private String name;
+	@Column(columnDefinition = "varchar default 40", nullable = false)
+	private String lastName;
 	
 	@NotEmpty
 	@Column(columnDefinition = "datetime", nullable = false)
@@ -82,12 +86,20 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public Date getJoin_date() {

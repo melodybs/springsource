@@ -54,13 +54,15 @@ public class SpringUserServiceTest {
 		assertEquals("admin@gmail.com", user.getEmail());
 		assertEquals(DigestUtils.sha256Hex("secret{admin@gmail.com}"), 
 				user.getPassword());
-		assertEquals("admin", user.getName());
+		assertEquals("admin", user.getFirstName());
+		assertEquals("admin", user.getLastName());
 		
 		user = this.userService.findUserById(3);
 		assertEquals("admin@gmail.com", user.getEmail());
 		assertEquals(DigestUtils.sha256Hex("secret{admin@gmail.com}"), 
 				user.getPassword());
-		assertEquals("admin", user.getName());
+		assertEquals("admin", user.getFirstName());
+		assertEquals("admin", user.getLastName());
 	}
 	
 /* 유저 저장 */
@@ -72,13 +74,15 @@ public class SpringUserServiceTest {
 		//새로운 계정 저장
 		user.setEmail("save@gmail.com");
 		user.setPassword("secret");
-		user.setName("save");
+		user.setFirstName("save");
+		user.setLastName("save");
 		user.setJoin_date(new Date(1991, 3, 10, 2, 23, 34));
 		targetUser = this.userService.save(user);
 		assertSame(4L, targetUser.getId());
 		assertEquals("save@gmail.com", targetUser.getEmail());
 		assertEquals("secret", targetUser.getPassword());
-		assertEquals("save", targetUser.getName());
+		assertEquals("save", user.getFirstName());
+		assertEquals("save", user.getLastName());
 		assertEquals("Fri Apr 10 02:23:34 KST 3891", 
 				targetUser.getJoin_date().toString());
 		
@@ -86,12 +90,14 @@ public class SpringUserServiceTest {
 		user.setId(4L);
 		user.setEmail("save2@gmail.com");
 		user.setPassword("secret2");
-		user.setName("save2");
+		user.setFirstName("save2");
+		user.setLastName("save2");
 		targetUser = this.userService.save(user);
 		assertSame(4L, targetUser.getId());
 		assertEquals("save2@gmail.com", targetUser.getEmail());
 		assertEquals("secret2", targetUser.getPassword());
-		assertEquals("save2", targetUser.getName());
+		assertEquals("save2", user.getFirstName());
+		assertEquals("save2", user.getLastName());
 		assertEquals("Fri Apr 10 02:23:34 KST 3891", 
 				targetUser.getJoin_date().toString());
 	}
@@ -105,7 +111,8 @@ public class SpringUserServiceTest {
 		assertEquals("guest@gmail.com", user.getEmail());
 		assertEquals(DigestUtils.sha256Hex("secret{guest@gmail.com}"), 
 				user.getPassword());
-		assertEquals("guest", user.getName());
+		assertEquals("guest", user.getFirstName());
+		assertEquals("guest", user.getLastName());
 	}
 	
 /* 로그인 실패 테스트 */

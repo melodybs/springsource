@@ -9,6 +9,7 @@
 <spring:url value="/j_spring_security_logout"  var="logout" />
 
 <sec:authorize access = "isAnonymous()">
+<div>	
 	<form action="${login}" method="POST">
 		<label for="email" >
 			<spring:message code="public.authentication.login.email" />
@@ -36,6 +37,10 @@
 		
 		<button type="submit">전송</button>
 	</form>
+	
+	<a href="">Sign in with FaceBook</a>
+	<a href="">Sign in with Twitter</a>
+</div>
 </sec:authorize>
 
 <sec:authorize access = "isAuthenticated()">

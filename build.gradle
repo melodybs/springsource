@@ -25,6 +25,9 @@ ext.springSwfVersion = "2.3.3.RELEASE"
 ext.hibernateVersion = "4.3.5.Final"
 ext.hibernateValidatorVersion = "5.1.0.Final"
 ext.ehCacheVersion = "2.8.1"
+ext.springSocialVersion = "1.1.0.RC1"
+ext.springSocialFacebookVersion = "1.1.0.RC1"
+ext.springSocialTwitterVersion = "1.1.0.RC1"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -112,16 +115,13 @@ dependencies {
     compile "com.google.code.gson:gson:2.2.4"
     compile "javax.validation:validation-api:1.1.0.Final"
     
-    compile "org.springframework.social:spring-social:1.0.3.RELEASE"
-    compile "org.springframework.social:spring-social-config:1.1.0.RC1"
-    compile "org.springframework.social:spring-social-security:1.1.0.RC1"
-    compile "org.springframework.social:spring-social-facebook:1.0.3.RELEASE"
-    compile "org.springframework.social:spring-social-twitter:1.0.5.RELEASE"
-    compile "org.springframework.social:spring-social-google:1.0.0.M3"
-    //compile "org.springframework.social:spring-social-google:${org.springframework.social-google-version}"
-    //compile "org.springframework.social:spring-social-linkedin:1.0.0.RC4"
-    //compile "org.springframework.social:spring-social-github:1.0.0.M3"
-    //compile "org.springframework.social:spring-social-tripit:1.0.0.M3"
+    compile "org.springframework.social:spring-social-core:$springSocialVersion"
+    compile "org.springframework.social:spring-social-web:$springSocialVersion"
+    compile "org.springframework.social:spring-social-config:$springSocialVersion"
+    compile "org.springframework.social:spring-social-security:$springSocialVersion"
+    compile "org.springframework.social:spring-social-facebook:$springSocialFacebookVersion"
+    compile "org.springframework.social:spring-social-facebook-web:$springSocialFacebookVersion"
+    compile "org.springframework.social:spring-social-twitter:$springSocialTwitterVersion"
     
     compile "org.slf4j:jcl-over-slf4j:1.7.6"
     

@@ -31,14 +31,14 @@ public class SpringUserDetailsService implements UserDetailsService {
 		
 		if (StringUtils.isBlank(email)) {
 			
-			throw new UsernameNotFoundException("아이디가 비었습니다.");
+			throw new UsernameNotFoundException("아이디를 입력해 주시기 바랍니다.");
 		}
 		
 		User user = userService.findUserByEmail(email);
 		
 		if (user == null) {
 			
-			throw new UsernameNotFoundException("일치하는 아이디가 없습니다.");
+			throw new UsernameNotFoundException("일치하는 아이디가 없습니다: " + email);
 		}
 		
 		List<GrantedAuthority> grantedAuthorities =
