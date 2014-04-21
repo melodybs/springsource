@@ -122,6 +122,7 @@ dependencies {
     compile "org.springframework.social:spring-social-facebook:$springSocialFacebookVersion"
     compile "org.springframework.social:spring-social-facebook-web:$springSocialFacebookVersion"
     compile "org.springframework.social:spring-social-twitter:$springSocialTwitterVersion"
+    compile "org.apache.httpcomponents:httpclient:4.3.1"
     
     compile "org.slf4j:jcl-over-slf4j:1.7.6"
     

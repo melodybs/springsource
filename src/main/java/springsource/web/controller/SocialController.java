@@ -9,37 +9,43 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import springsource.web.service.UserService;
 
-//@Controller
+@Controller
 public class SocialController {
 	
-	/*private final Provider<ConnectionRepository> connectionRepositoryProvider;
+	/*private final UserService userService;
 	
-	private final UserService userService;
+	private final Provider<ConnectionRepository> connectionRepositoryProvider;
 	
 	@Inject
-	public HomeController(
+	public SocialController(
 			Provider<ConnectionRepository> connectionRepositoryProvider,
 			UserService userService) {
 		
-		this.connectionRepositorProvider = connectionRepositoryProvider;
+		this.connectionRepositoryProvider = connectionRepositoryProvider;
 		this.userService = userService;
 	}
 	
 	@RequestMapping("/")
-	public String home(Principal currentUser, Model model) {
+	public String main(Principal currentUser, Model model) {
 		
 		model.addAttribute("connectionsToProviders", 
 				getConnectionRepository().findAllConnections());
 		model.addAttribute(userService.findUserByEmail(currentUser.getName()));
 		
-		return "home";
+		return "/main";
 	}
 	
 	private ConnectionRepository getConnectionRepository() {
 		
 		return connectionRepositoryProvider.get();
 	}*/
+	
+	@RequestMapping(value = "/signin", method = RequestMethod.GET)
+	public void signin() {
+		
+	}
 }

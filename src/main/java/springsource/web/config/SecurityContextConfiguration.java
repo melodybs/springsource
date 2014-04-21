@@ -9,8 +9,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.UserIdSource;
+import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
 
@@ -26,6 +30,14 @@ public class SecurityContextConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	public void registerAuthentication(AuthenticationManagerBuilder auth) 
+			throws Exception {
+		
+		auth.userDetailsService(userDetailsService())
+				.passwordEncoder(passwordEncoder());
+	}
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -53,23 +65,27 @@ public class SecurityContextConfiguration extends WebSecurityConfigurerAdapter {
 			.and()
 				.apply(new SpringSocialConfigurer());
 	}
-	
-	protected void registerAuthentication(AuthenticationManagerBuilder auth) 
-			throws Exception {
+
+	@Bean
+	public SocialUserDetailsService socialUserDetailsService() {
 		
-		auth.userDetailsService(userDetailsService())
-				.passwordEncoder(passwordEncoder());
+		return new SimpleSocialUserDetailsService(userDetailsService());
+	}
+	
+	@Bean UserIdSource userIdSource() {
+		
+		return new AuthenticationNameUserIdSource();
 	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		
-		return new BCryptPasswordEncoder(10);
+		return NoOpPasswordEncoder.getInstance();
 	}
 	
 	@Bean
-	public SocialUserDetailsService socialUserDetailsService() {
+	public TextEncryptor textEncryptor() {
 		
-		return new SimpleSocialUserDetailsService(userDetailsService());
+		return Encryptors.noOpText();
 	}
 }

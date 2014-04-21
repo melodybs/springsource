@@ -38,8 +38,9 @@
 		<button type="submit">전송</button>
 	</form>
 	
-	<a href="">Sign in with FaceBook</a>
-	<a href="">Sign in with Twitter</a>
+	<a href="/auth/facebook">Sign in with FaceBook</a>
+	<br />
+	<a href="/auth/twitter">Sign in with Twitter</a>
 </div>
 </sec:authorize>
 
