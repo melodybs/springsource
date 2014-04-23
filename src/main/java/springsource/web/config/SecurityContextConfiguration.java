@@ -18,13 +18,13 @@ import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
 
-import springsource.web.security.SimpleSocialUserDetailsService;
+import springsource.web.security.SimpleSocialUsersDetailService;
 import springsource.web.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityContextConfiguration extends WebSecurityConfigurerAdapter {
-
+	
 	@Autowired
 	private ApplicationContext context;
 	
@@ -35,8 +35,7 @@ public class SecurityContextConfiguration extends WebSecurityConfigurerAdapter {
 	public void registerAuthentication(AuthenticationManagerBuilder auth) 
 			throws Exception {
 		
-		auth.userDetailsService(userDetailsService())
-				.passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userDetailsService());
 	}
 	
 	@Override
@@ -49,17 +48,20 @@ public class SecurityContextConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.formLogin()
-				.loginPage("/signin")
-				.loginProcessingUrl("/signin/authenticate")
-				.failureUrl("/signin?param.error=bad_credentials")
+				.loginPage("/public/authentication/login")
+				.loginProcessingUrl("/j_spring_security_check")
+				.failureUrl("/public/authentication/login?error=bad_credentials")
+				.defaultSuccessUrl("/main")
 			.and()
 				.logout()
-					.logoutUrl("/signout")
+					.logoutUrl("/j_spring_security_logout")
 					.deleteCookies("JSESSIONID")
 			.and()
 				.authorizeRequests()
-					.antMatchers("/admin/**", "/favicon.ico", "/resources/**", "/auth/**", "/signin/**", "/signup/**", "/disconnect/facebook").permitAll()
-					.antMatchers("/**").authenticated()
+					.antMatchers("/secured/admin/write/**", 
+							     "/secured/admin/modify/**",
+							     "/secred/**/*").authenticated()
+					.antMatchers("/**/*").permitAll()
 			.and()
 				.rememberMe()
 			.and()
@@ -69,7 +71,7 @@ public class SecurityContextConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public SocialUserDetailsService socialUserDetailsService() {
 		
-		return new SimpleSocialUserDetailsService(userDetailsService());
+		return new SimpleSocialUsersDetailService(userDetailsService());
 	}
 	
 	@Bean UserIdSource userIdSource() {

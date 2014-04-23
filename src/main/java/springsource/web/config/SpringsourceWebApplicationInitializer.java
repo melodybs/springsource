@@ -15,8 +15,11 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
+
+import sun.misc.CharacterEncoder;
 
 public class SpringsourceWebApplicationInitializer implements
 		WebApplicationInitializer {
@@ -42,6 +45,7 @@ public class SpringsourceWebApplicationInitializer implements
 		registerDispatcherServlet(servletContext);
 		registerOpenEntityManagerInViewFilter(servletContext);
 		registerSpringSecurityFilterChain(servletContext);
+		//registerEncodingFilter(servletContext);
 	}
 
 	/* Method */ 
@@ -119,6 +123,22 @@ public class SpringsourceWebApplicationInitializer implements
 						new DelegatingFilterProxy());
 		
 		springSecurityFilterChain.addMappingForUrlPatterns(null, false, "/*");
+	}
+	
+	private void registerEncodingFilter(ServletContext servletContext) {
+		
+		EnumSet<DispatcherType> dispatcherTypes
+				= EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
+		CharacterEncodingFilter characterEncodingFilter = 
+				new CharacterEncodingFilter();
+		
+		characterEncodingFilter.setEncoding("UTF-8");
+		characterEncodingFilter.setForceEncoding(true);
+		
+		FilterRegistration.Dynamic characterEncoding = servletContext
+				.addFilter("characterEncoding", characterEncodingFilter);
+		
+		characterEncoding.addMappingForUrlPatterns(dispatcherTypes, true, "/*");
 	}
 	/* // Method */
 }

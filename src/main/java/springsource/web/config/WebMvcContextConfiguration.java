@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
@@ -37,7 +38,7 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages={ "springsource.web" })
-@ImportResource("classpath:/spring/spring-security.xml")
+//@ImportResource("classpath:/spring/spring-security.xml")
 public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 	
 	//Logger logger = LoggerFactory.getLogger(WebMvcContextConfiguration.class);
@@ -164,4 +165,11 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 		
 		return new SessionAttributeProcessor();
 	}*/
+
+	@Bean
+	public PropertySourcesPlaceholderConfigurer 
+			propertySourcesPlaceholderConfigurer() {
+		
+		return new PropertySourcesPlaceholderConfigurer();
+	}
 }

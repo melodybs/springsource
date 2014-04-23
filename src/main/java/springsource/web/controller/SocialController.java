@@ -5,6 +5,8 @@ import java.security.Principal;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,8 @@ import springsource.web.service.UserService;
 
 @Controller
 public class SocialController {
+	
+	private static Logger log = LoggerFactory.getLogger(SocialController.class);
 	
 	/*private final UserService userService;
 	

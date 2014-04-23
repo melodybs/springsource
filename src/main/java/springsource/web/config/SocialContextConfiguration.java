@@ -1,12 +1,18 @@
 package springsource.web.config;
 
+import javax.inject.Inject;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.encrypt.Encryptors;
@@ -14,12 +20,16 @@ import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
+import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.facebook.web.DisconnectController;
+import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 
 @Configuration
@@ -27,7 +37,7 @@ import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 @PropertySource("classpath:/social.properties")
 public class SocialContextConfiguration  extends SocialConfigurerAdapter {
 	
-	@Autowired
+	@Inject
 	private DataSource dataSource;
 	
 	@Override
@@ -66,7 +76,6 @@ public class SocialContextConfiguration  extends SocialConfigurerAdapter {
 				return authentication.getName();
 			}
 		};
-		//return new AuthenticationNameUserIdSource();	
 	}
 	
 	@Override
@@ -86,5 +95,34 @@ public class SocialContextConfiguration  extends SocialConfigurerAdapter {
 				connectionFactoryLocator, connectionRepository);
 		
 		return connectController;
+	}
+	
+	@Bean
+	public DisconnectController disconnectController(
+			UsersConnectionRepository usersConnectionRepository, 
+			Environment environment) {
+		
+		return new DisconnectController(usersConnectionRepository, 
+				environment.getProperty("facebook.secret"));
+	}
+	
+	@Bean
+	@Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
+	public Facebook facebook(ConnectionRepository repository) {
+		
+		Connection<Facebook> connection = 
+				repository.findPrimaryConnection(Facebook.class);
+		
+		return connection != null ? connection.getApi() : null;
+	}
+	
+	@Bean
+	@Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
+	public Twitter twitter(ConnectionRepository repository) {
+		
+		Connection<Twitter> connection = 
+				repository.findPrimaryConnection(Twitter.class);
+		
+		return connection != null ? connection.getApi() : null;
 	}
 }
