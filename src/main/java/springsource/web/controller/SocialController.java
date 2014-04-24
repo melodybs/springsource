@@ -47,9 +47,11 @@ public class SocialController {
 		
 		return connectionRepositoryProvider.get();
 	}*/
-	
-	@RequestMapping(value = "/signin", method = RequestMethod.GET)
-	public void signin() {
+
+	//Social Login Redirect /signup
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public String signup() {
 		
+		return "/public/authentication/signup";
 	}
 }

@@ -38,7 +38,7 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages={ "springsource.web" })
-//@ImportResource("classpath:/spring/spring-security.xml")
+@ImportResource("classpath:/spring/spring-security.xml")
 public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 	
 	//Logger logger = LoggerFactory.getLogger(WebMvcContextConfiguration.class);

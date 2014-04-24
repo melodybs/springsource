@@ -8,12 +8,21 @@
 	
 	<security:global-method-security pre-post-annotations="enabled" />
 	
+	<security:http pattern="/resources/**" security="none" />
+	
 	<security:http use-expressions="true">
 		
+		<security:csrf />
+		
+		<!-- 
+		login-processing-url="/j_spring_security_check"
+		username-parameter="j_username"
+		password-parameter="j_password"
+		 -->
 		<security:form-login 
 				login-page="/public/authentication/login"
-				default-target-url="/main"
-				authentication-failure-url="/public/authentication/login?error=bad_credentials" />
+				authentication-failure-url="/public/authentication/login?error=bad_credentials" 
+				default-target-url="/main" />
 
 		<security:intercept-url pattern="/public/authentication/**" access="permitAll" requires-channel="https" />
 
@@ -26,18 +35,45 @@
 		<security:logout 
 				logout-success-url="/main" 
 		        logout-url="/j_spring_security_logout"
-		        invalidate-session="true" />
+		        invalidate-session="true" 
+		        delete-cookies="JESSIONID" />
 		
-		<security:custom-filter ref=""/>
+		<security:custom-filter ref="socialAuthenticationFilter" before="PRE_AUTH_FILTER" />
 	</security:http>
 	
 	<security:authentication-manager alias="authenticationManager">
-    	<security:authentication-provider user-service-ref="springUserDetailsService">
+		<security:authentication-provider user-service-ref="springUserDetailsService">
     		
     		<security:password-encoder hash="sha-256">
     			<security:salt-source user-property="username" />
     		</security:password-encoder>
     	
     	</security:authentication-provider>
+    	
+    	<security:authentication-provider ref="socialAuthenticationProvider" />
     </security:authentication-manager>
+    
+<!-- social baen -->
+    <bean id="socialAuthenticationFilter" class="org.springframework.social.security.SocialAuthenticationFilter">
+    	<constructor-arg index="0" ref="authenticationManager"/>
+        <constructor-arg index="1" ref="userIdSource"/>
+        <constructor-arg index="2" ref="usersConnectionRepository"/>
+        <constructor-arg index="3" ref="connectionFactoryLocator"/>
+
+        <!-- Sets the url of the registration form. -->
+        <property name="signupUrl" value="/signup"/>
+    </bean>
+    
+    <bean id="socialAuthenticationProvider" class="org.springframework.social.security.SocialAuthenticationProvider">
+        <constructor-arg index="0" ref="usersConnectionRepository"/>
+        <constructor-arg index="1" ref="simpleSocialUserDetailsService"/>
+    </bean>
+    
+    <bean id="simpleSocialUserDetailsService" class="springsource.web.security.SimpleSocialUsersDetailService">
+        <constructor-arg index="0" ref="springUserDetailsService"/>
+    </bean>
+    
+    <bean id="springUserDetailsService" class="springsource.web.security.SpringUserDetailsService"/>
+	
+	<bean id="userIdSource" class="org.springframework.social.security.AuthenticationNameUserIdSource"/>
 </beans>

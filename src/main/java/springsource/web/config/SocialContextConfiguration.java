@@ -32,6 +32,11 @@ import org.springframework.social.facebook.web.DisconnectController;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 
+import springsource.web.security.FacebookAfterConnectInterceptor;
+import springsource.web.security.FacebookDisconnectInterceptor;
+import springsource.web.security.TwitterAfterConnectInterceptor;
+import springsource.web.security.TwitterDisconnectInterceptor;
+
 @Configuration
 @EnableSocial
 @PropertySource("classpath:/social.properties")
@@ -93,6 +98,13 @@ public class SocialContextConfiguration  extends SocialConfigurerAdapter {
 		
 		ConnectController connectController = new ConnectController(
 				connectionFactoryLocator, connectionRepository);
+		
+		connectController.addInterceptor(new FacebookAfterConnectInterceptor());
+		connectController.addInterceptor(new TwitterAfterConnectInterceptor());
+		connectController.addDisconnectInterceptor(
+				new FacebookDisconnectInterceptor());
+		connectController.addDisconnectInterceptor(
+				new TwitterDisconnectInterceptor());
 		
 		return connectController;
 	}
