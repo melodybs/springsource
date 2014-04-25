@@ -11,9 +11,7 @@
 	<security:http pattern="/resources/**" security="none" />
 	
 	<security:http use-expressions="true">
-		
-		<security:csrf />
-		
+	
 		<!-- 
 		login-processing-url="/j_spring_security_check"
 		username-parameter="j_username"
@@ -38,7 +36,15 @@
 		        invalidate-session="true" 
 		        delete-cookies="JESSIONID" />
 		
+		<security:session-management>
+			<security:concurrency-control max-sessions="1" session-registry-alias="sessionRegistry"/>
+		</security:session-management>
+		
 		<security:custom-filter ref="socialAuthenticationFilter" before="PRE_AUTH_FILTER" />
+	
+		<security:headers>
+			<security:xss-protection />
+		</security:headers>
 	</security:http>
 	
 	<security:authentication-manager alias="authenticationManager">

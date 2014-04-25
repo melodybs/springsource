@@ -1,19 +1,16 @@
 package springsource.web.controller;
 
-import java.security.Principal;
-
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import springsource.web.service.UserService;
 
 @Controller
 public class SocialController {
@@ -48,10 +45,24 @@ public class SocialController {
 		return connectionRepositoryProvider.get();
 	}*/
 
+	@Inject
+	private ConnectionRepository connectionRepository;
+	
 	//Social Login Redirect /signup
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String signup() {
+	public String signup(Model model) {
 		
+		Connection<Facebook> connection =
+				connectionRepository.findPrimaryConnection(Facebook.class);
+		
+		if (connection == null) {
+			
+			return "redirect:/public/authentication/login";
+		}
+		
+		model.addAttribute("profile", 
+				connection.getApi().userOperations().getUserProfile());
+				
 		return "/public/authentication/signup";
 	}
 }
