@@ -22,11 +22,11 @@
 				authentication-failure-url="/public/authentication/login?error=bad_credentials" 
 				default-target-url="/main" />
 
-		<security:intercept-url pattern="/public/authentication/**" access="permitAll" requires-channel="https" />
+		<security:intercept-url pattern="/public/authentication/**" access="permitAll" /><!-- requires-channel="https" -->
 
-		<security:intercept-url pattern="/secured/admin/write" access="hasRole('PERM_ADD_POST')" requires-channel="https" /> 
-	    <security:intercept-url pattern="/secured/admin/modify" access="hasRole('PERM_MOD_POST')" requires-channel="https" /> 
-	    <security:intercept-url pattern="/secred/**" access="fullyAuthenticated" requires-channel="https" />
+		<security:intercept-url pattern="/secured/admin/write" access="hasRole('PERM_ADD_POST')" /><!-- requires-channel="https" --> 
+	    <security:intercept-url pattern="/secured/admin/modify" access="hasRole('PERM_MOD_POST')" /><!-- requires-channel="https" --> 
+	    <security:intercept-url pattern="/secred/**" access="fullyAuthenticated" /><!-- requires-channel="https" -->
 		
 		<security:intercept-url pattern="/**" access="permitAll" />
 	
